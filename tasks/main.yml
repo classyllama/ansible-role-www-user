@@ -11,3 +11,18 @@
     user: "{{ www_user_name }}"
     key: "{{ lookup('file', '{{ inventory_dir }}/../files/www-user/ssh-keys/{{ item }}') }}"
   with_items: "{{ www_user_ssh_keys }}"
+
+# replace www- out of username for data dir name if present
+- set_fact: www_user_web_dir={{ www_user_name|replace("www-", "") }}
+
+- name: create /var/www/{{ www_user_web_dir }}
+  file:
+    path: /var/www/{{ www_user_web_dir }}
+    owner: "{{ www_user_name }}"
+    group: "{{ www_user_name }}"
+    state: directory
+
+- name: "append ~{{ www_user_name }}/bash_profile dir change"
+  lineinfile:
+    line: "cd /var/www/{{ www_user_web_dir }}"
+    dest: ~{{ www_user_name }}/.bash_profile
