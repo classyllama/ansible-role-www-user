@@ -1,0 +1,13 @@
+- name: create user {{ www_user_name }}
+  user:
+    name: "{{ www_user_name }}"
+    groups: "{{ www_user_groups | join(',') }}"
+    append: yes
+    shell: /bin/bash
+    generate_ssh_key: yes
+
+- name: import ssh keys for {{ www_user_name }}
+  authorized_key:
+    user: "{{ www_user_name }}"
+    key: "{{ lookup('file', '{{ inventory_dir }}/../files/www-user/ssh-keys/{{ item }}') }}"
+  with_items: "{{ www_user_ssh_keys }}"

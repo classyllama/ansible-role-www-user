@@ -1,0 +1,7 @@
+---
+www_user_name: www-data
+www_user_groups:
+  - sshusers
+www_user_ssh_keys:
+  - david.alger
+  - matt.johnson
