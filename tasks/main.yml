@@ -20,6 +20,7 @@
     path: /var/www/{{ www_user_web_dir }}
     owner: "{{ www_user_name }}"
     group: "{{ www_user_name }}"
+    mode: 0751
     state: directory
 
 - name: "append ~{{ www_user_name }}/bash_profile dir change"
